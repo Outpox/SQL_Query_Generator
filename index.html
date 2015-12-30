@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body ng-app="SQLQueryGenerator" ng-controller="queryGenerator as qg">
+
+<div layout="column" layout-align="center center">
+    <div>
+        <h1>
+            I want to
+            <md-input-container>
+                <md-select ng-model="mainChoice" ng-model-options="{trackBy: '$value.id'}">
+                    <md-option ng-repeat="option in mainOptions" ng-value="option">
+                        {{option.value}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            .
+        </h1>
+    </div>
+    <div layout="row" layout-align="center center">
+        <div ng-show="inputTableNeeded(mainChoice)">
+            <md-input-container>
+                <label>Table name</label>
+                <input type="text" ng-model="tableName">
+            </md-input-container>
+        </div>
+        <div ng-show="inputColumnNeeded(mainChoice)">
+            <md-input-container>
+                <label>{{inputColumnOption}}</label>
+                <input type="text" ng-model="inputColumnValue" ng-disabled="!tableName">
+            </md-input-container>
+        </div>
+        <div ng-show="inputValueNeeded(mainChoice)">
+            <md-input-container>
+                <label>{{inputValueOption}}</label>
+                <input type="text" ng-model="inputValueValue" ng-disabled="!inputColumnValue">
+            </md-input-container>
+        </div>
+        <div ng-show="inputWhereNeeded(mainChoice)">
+            <md-input-container>
+                <label>Where clause</label>
+                <input type="text" ng-model="inputWhereValue" ng-disabled="!inputValueValue">
+            </md-input-container>
+        </div>
+    </div>
+    <div>
+        {{generateCode(mainChoice, tableName, inputColumnValue, inputValueValue, inputWhereValue)}}
+    </div>
+</div>
+
+<script src="node_modules/angular/angular.js"></script>
+<script src="node_modules/angular-aria/angular-aria.js"></script>
+<script src="node_modules/angular-animate/angular-animate.js"></script>
+<script src="node_modules/angular-material/angular-material.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

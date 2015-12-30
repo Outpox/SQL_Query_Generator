@@ -1,0 +1,10 @@
+body {
+    background: url('../img/background.jpg') no-repeat fixed center;
+    background-size: 100% auto;
+}
+
+#main {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
