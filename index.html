@@ -12,13 +12,14 @@
         <h1>
             I want to
             <md-input-container>
-                <md-select ng-model="mainChoice" ng-model-options="{trackBy: '$value.id'}">
+                <md-select ng-model="mainChoice" ng-model-options="{trackBy: '$value.id'}" placeholder="pick an action">
                     <md-option ng-repeat="option in mainOptions" ng-value="option">
                         {{option.value}}
                     </md-option>
                 </md-select>
             </md-input-container>
             .
+            <md-button ng-show="inputTableNeeded(mainChoice)" ng-click="reset(option)">Reset</md-button>
         </h1>
     </div>
     <div layout="row" layout-align="center center">
