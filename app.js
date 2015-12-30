@@ -1,11 +1,11 @@
 angular.module('SQLQueryGenerator', ['ngMaterial'])
     .controller("queryGenerator", ['$scope', function ($scope) {
         $scope.mainOptions = [
-            {id: 'add_column', value: 'add a column', code: 'ALTER TABLE'},
-            {id: 'add_comment', value: 'add a comment', code: 'COMMENT ON COLUMN'},
-            {id: 'create_foreign_key', value: 'create a foreign key', code: 'ALTER TABLE'},
-            {id: 'create_table', value: 'create a table', code: 'CREATE TABLE'},
-            {id: 'update_row', value: 'update a row', code: 'UPDATE'}
+            {id: 'add_column', value: 'add a column', disabled: true, code: 'ALTER TABLE'},
+            {id: 'add_comment', value: 'add a comment', disabled: false, code: 'COMMENT ON COLUMN'},
+            {id: 'create_foreign_key', value: 'create a foreign key', disabled: true, code: 'ALTER TABLE'},
+            {id: 'create_table', value: 'create a table', disabled: true, code: 'CREATE TABLE'},
+            {id: 'update_row', value: 'update a row', disabled: false, code: 'UPDATE'}
         ];
 
         $scope.reset = function () {
@@ -16,11 +16,12 @@ angular.module('SQLQueryGenerator', ['ngMaterial'])
             $scope.inputWhereValue = undefined;
         };
 
-        $scope.inputTableNeeded = function (option) {
-            return (option !== undefined);
+        $scope.inputTableNeeded = function () {
+            return ($scope.mainChoice !== undefined);
         };
 
-        $scope.inputColumnNeeded = function (option) {
+        $scope.inputColumnNeeded = function () {
+            var option = $scope.mainChoice;
             if ($scope.inputTableNeeded(option)) {
                 switch (option.id) {
                     default:
@@ -30,7 +31,8 @@ angular.module('SQLQueryGenerator', ['ngMaterial'])
             }
         };
 
-        $scope.inputValueNeeded = function(option) {
+        $scope.inputValueNeeded = function () {
+            var option = $scope.mainChoice;
             if ($scope.inputColumnNeeded(option)) {
                 switch (option.id) {
                     case 'add_comment':
@@ -45,7 +47,8 @@ angular.module('SQLQueryGenerator', ['ngMaterial'])
             }
         };
 
-        $scope.inputWhereNeeded = function (option) {
+        $scope.inputWhereNeeded = function () {
+            var option = $scope.mainChoice;
             if ($scope.inputValueNeeded(option)) {
                 switch (option.id) {
                     case 'update_row':
@@ -56,7 +59,13 @@ angular.module('SQLQueryGenerator', ['ngMaterial'])
             }
         };
 
-        $scope.generateCode = function (option, tableName, inputColumnValue, inputValueValue, inputWhereValue) {
+        $scope.generateCode = function () {
+            var option = $scope.mainChoice;
+            var tableName = $scope.tableName;
+            var inputColumnValue = $scope.inputColumnValue;
+            var inputValueValue = $scope.inputValueValue;
+            var inputWhereValue = $scope.inputWhereValue;
+
             if (tableName !== undefined && tableName !== '') {
                 var ret = '';
                 if ($scope.inputColumnNeeded(option)) {
@@ -69,7 +78,7 @@ angular.module('SQLQueryGenerator', ['ngMaterial'])
                             break;
                         case 'update_row':
                             var iv = '';
-                            if (inputValueValue !== undefined && inputValueValue !== ''){
+                            if (inputValueValue !== undefined && inputValueValue !== '') {
                                 if (!isNan(parseInt(inputValueValue))) {
                                     iv = inputValueValue;
                                 }

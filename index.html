@@ -13,35 +13,35 @@
             I want to
             <md-input-container>
                 <md-select ng-model="mainChoice" ng-model-options="{trackBy: '$value.id'}" placeholder="pick an action">
-                    <md-option ng-repeat="option in mainOptions" ng-value="option">
+                    <md-option ng-repeat="option in mainOptions" ng-value="option" ng-disabled="option.disabled">
                         {{option.value}}
                     </md-option>
                 </md-select>
             </md-input-container>
             .
-            <md-button ng-show="inputTableNeeded(mainChoice)" ng-click="reset(option)">Reset</md-button>
+            <md-button ng-show="inputTableNeeded()" ng-click="reset()">Reset</md-button>
         </h1>
     </div>
     <div layout="row" layout-align="center center">
-        <div ng-show="inputTableNeeded(mainChoice)">
+        <div ng-show="inputTableNeeded()">
             <md-input-container>
                 <label>Table name</label>
                 <input type="text" ng-model="tableName">
             </md-input-container>
         </div>
-        <div ng-show="inputColumnNeeded(mainChoice)">
+        <div ng-show="inputColumnNeeded()">
             <md-input-container>
                 <label>{{inputColumnOption}}</label>
                 <input type="text" ng-model="inputColumnValue" ng-disabled="!tableName">
             </md-input-container>
         </div>
-        <div ng-show="inputValueNeeded(mainChoice)">
+        <div ng-show="inputValueNeeded()">
             <md-input-container>
                 <label>{{inputValueOption}}</label>
                 <input type="text" ng-model="inputValueValue" ng-disabled="!inputColumnValue">
             </md-input-container>
         </div>
-        <div ng-show="inputWhereNeeded(mainChoice)">
+        <div ng-show="inputWhereNeeded()">
             <md-input-container>
                 <label>Where clause</label>
                 <input type="text" ng-model="inputWhereValue" ng-disabled="!inputValueValue">
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div>
-        {{generateCode(mainChoice, tableName, inputColumnValue, inputValueValue, inputWhereValue)}}
+        {{generateCode()}}
     </div>
 </div>
 
