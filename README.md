@@ -5,3 +5,5 @@ Just run
 ```
 npm install
 ```
+
+and open the index.html file
